@@ -1,0 +1,59 @@
+class Solution {
+  
+  // Method to find the first occurrence (lower bound)
+  public int lowerBound(int[] nums, int target) {
+      int start = 0, end = nums.length - 1;
+      int first = -1;
+
+      while (start <= end) {
+          int mid = start + (end - start) / 2;
+
+          if (nums[mid] == target) {
+              first = mid; // Possible first occurrence
+              end = mid - 1; // Search towards the left
+          } else if (nums[mid] > target) {
+              end = mid - 1;
+          } else {
+              start = mid + 1;
+          }
+      }
+      return first;
+  }
+
+  // Method to find the last occurrence (upper bound)
+  public int upperBound(int[] nums, int target) {
+      int start = 0, end = nums.length - 1;
+      int last = -1;
+
+      while (start <= end) {
+          int mid = start + (end - start) / 2;
+
+          if (nums[mid] == target) {
+              last = mid; // Possible last occurrence
+              start = mid + 1; // Search towards the right
+          } else if (nums[mid] > target) {
+              end = mid - 1;
+          } else {
+              start = mid + 1;
+          }
+      }
+      return last;
+  }
+        
+  public int[] searchRange(int[] nums, int target) {
+      int[] result = new int[2]; // Array to store the first and last positions
+      result[0] = lowerBound(nums, target);
+      result[1] = upperBound(nums, target);
+      return result;
+  }
+
+  public static void main(String args[]) {
+      Solution sol = new Solution(); // Create an instance of Solution
+      int[] nums = {5, 7, 7, 8, 8, 10};
+      int target = 8;
+      int[] result = sol.searchRange(nums, target);
+
+      // Print the result
+      System.out.println("[" + result[0] + ", " + result[1] + "]");
+  }
+}
